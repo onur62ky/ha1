@@ -104,5 +104,37 @@ class CalculatorTest {
 
         assertEquals(expected, actual);
     }
+
+    @Test
+    @DisplayName("should clear only current entry after first clear")
+    void testClearKeyShouldOnlyClearCurrentEntryFirst() {
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(8);
+        calc.pressBinaryOperationKey("+");
+        calc.pressDigitKey(3);
+        calc.pressClearKey();   // sollte nur die aktuelle Eingabe löschen
+        calc.pressDigitKey(2);
+        calc.pressEqualsKey();
+
+        String expected = "10";   // 8 + 2
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    @DisplayName("should do nothing when equals is pressed without prior operation")
+    void testEqualsWithoutOperation() {
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(7);
+        calc.pressEqualsKey();
+
+        String expected = "7";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual);
+    }
 }
 
